@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "640153731796",
+    "project_id": "assembly-52",
+    "storage_bucket": "assembly-52.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:640153731796:android:65e65fd25d3ded12963141",
+        "android_client_info": {
+          "package_name": "com.assembly"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "640153731796-f02k4h3q7e6tbfd8tobd5h9bvu6k22q1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBzcn3AOri4OfzCxfCSqJi2ypXGhL2Xnxg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "640153731796-f02k4h3q7e6tbfd8tobd5h9bvu6k22q1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
