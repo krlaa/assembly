@@ -1,11 +1,13 @@
+import 'package:assembly/env/env.dart';
 import 'package:assembly/models/hive_store.dart';
 import 'package:assembly/models/user_model.dart';
 import 'package:assembly/screens/dashboard_page.dart';
 import 'package:assembly/screens/login_page.dart';
 import 'package:firedart/auth/user_gateway.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+// import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
+
 import 'package:firedart/firedart.dart';
 
 class AuthController extends GetxController {
@@ -15,8 +17,7 @@ class AuthController extends GetxController {
 
   @override
   void onInit() async {
-    _firebaseAuth =
-        FirebaseAuth.initialize(env['KEY'], await HiveStore.create());
+    _firebaseAuth = FirebaseAuth.initialize(Env.key, VolatileStore());
     signedIn.bindStream(_firebaseAuth.signInState);
     //     signedIn.listen((val) {
     //   !val ? Get.offAll(LoginPage()) : Get.offAll(Worked());

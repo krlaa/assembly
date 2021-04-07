@@ -1,3 +1,4 @@
+import 'package:assembly/uitls/dashboard_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
@@ -8,93 +9,114 @@ class DashboardPage extends GetView<DashboardController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      floatingActionButton: FloatingActionButton(
+          onPressed: () => Get.changeTheme(
+              !(Get.theme.brightness == ThemeData.dark().brightness)
+                  ? ThemeData.dark().copyWith(accentColor: Colors.yellow)
+                  : ThemeData.light().copyWith(accentColor: Colors.brown))),
+      drawerScrimColor: Colors.transparent,
+      appBar: context.showNavbar
+          ? null
+          : AppBar(
+              iconTheme: IconThemeData(color: Colors.black),
+              backgroundColor: Colors.transparent,
+              elevation: 0.0,
+            ),
       drawer: context.showNavbar
           ? null
           : Drawer(
+              elevation: 0.0,
               child: ListView.builder(
-                itemCount: 3,
+                itemCount: dashboardItemsList.length,
                 itemBuilder: (context, index) {
-                  return IconButton(
-                    icon: Icon(Icons.favorite_border),
-                    onPressed: () {
+                  return ListTile(
+                    title: Text(dashboardItemsList[index].label),
+                    leading: controller.page == index
+                        ? Icon(
+                            dashboardItemsList[index].icon.icon,
+                            color: Colors.blue,
+                          )
+                        : Icon(
+                            dashboardItemsList[index].icon.icon,
+                            color: Colors.black,
+                          ),
+                    onTap: () {
                       controller.page = index;
                       pageController.jumpToPage(index);
+                      Get.back();
                     },
                   );
                 },
               ),
             ),
-      body: Row(
+      body: Stack(
         children: [
-          context.showNavbar
-              ? ValueBuilder<bool>(
-                  initialValue: false,
-                  builder: (val, updater) {
-                    return MouseRegion(
-                      cursor: MouseCursor.defer,
-                      onEnter: (event) {
-                        updater(!val);
+          PageView(
+            controller: pageController,
+            physics: NeverScrollableScrollPhysics(),
+            children: [
+              Center(
+                  child: Container(
+                width: 100,
+                height: 100,
+                color: Get.theme.accentColor,
+              )),
+              Center(
+                  child: Container(
+                width: 100,
+                height: 100,
+                color: Colors.red,
+              )),
+              Center(
+                  child: Container(
+                width: 100,
+                height: 100,
+                color: Colors.black,
+              )),
+              Center(
+                  child: Container(
+                width: 100,
+                height: 100,
+                color: Colors.blue,
+              )),
+            ],
+          ),
+          Row(
+            children: [
+              context.showNavbar
+                  ? ValueBuilder<bool>(
+                      initialValue: false,
+                      builder: (val, updater) {
+                        return MouseRegion(
+                          cursor: MouseCursor.defer,
+                          onEnter: (event) {
+                            updater(!val);
+                          },
+                          onExit: (event) {
+                            updater(!val);
+                          },
+                          child: Obx(
+                            () => NavigationRail(
+                                elevation: 10.0,
+                                extended: val,
+                                onDestinationSelected: (value) {
+                                  controller.page = value;
+                                  pageController.jumpToPage(value);
+                                },
+                                destinations: dashboardItemsList
+                                    .map((e) => NavigationRailDestination(
+                                        icon: e.icon,
+                                        selectedIcon: Icon(e.icon.icon),
+                                        label: Text(e.label)))
+                                    .toList(),
+                                selectedIndex: controller.page),
+                          ),
+                        );
                       },
-                      onExit: (event) {
-                        updater(!val);
-                      },
-                      child: Obx(
-                        () => NavigationRail(
-                            extended: val,
-                            onDestinationSelected: (value) {
-                              controller.page = value;
-                              pageController.jumpToPage(value);
-                            },
-                            destinations: [
-                              NavigationRailDestination(
-                                icon: Icon(Icons.favorite_border),
-                                selectedIcon: Icon(Icons.favorite),
-                                label: Text('First'),
-                              ),
-                              NavigationRailDestination(
-                                icon: Icon(Icons.bookmark_border),
-                                selectedIcon: Icon(Icons.book),
-                                label: Text('Second'),
-                              ),
-                              NavigationRailDestination(
-                                icon: Icon(Icons.star_border),
-                                selectedIcon: Icon(Icons.star),
-                                label: Text('Third'),
-                              ),
-                            ],
-                            selectedIndex: controller.page),
-                      ),
-                    );
-                  },
-                )
-              : Container(),
-          Expanded(
-            child: PageView(
-              controller: pageController,
-              physics: NeverScrollableScrollPhysics(),
-              children: [
-                Center(
-                    child: Container(
-                  width: 100,
-                  height: 100,
-                  color: Colors.green,
-                )),
-                Center(
-                    child: Container(
-                  width: 100,
-                  height: 100,
-                  color: Colors.red,
-                )),
-                Center(
-                    child: Container(
-                  width: 100,
-                  height: 100,
-                  color: Colors.black,
-                ))
-              ],
-            ),
-          )
+                    )
+                  : Container(),
+            ],
+          ),
         ],
       ),
     );
