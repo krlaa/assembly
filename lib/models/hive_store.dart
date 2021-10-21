@@ -8,8 +8,6 @@ class HiveStore extends TokenStore {
 
   static Future<HiveStore> create() async {
     // Make sure you call both:
-    Hive.init('/assembly');
-    Hive.registerAdapter(TokenAdapter());
 
     var box = await Hive.openBox("auth_store",
         compactionStrategy: (entries, deletedEntries) => deletedEntries > 50);
