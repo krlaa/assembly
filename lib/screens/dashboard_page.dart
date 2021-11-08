@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:assembly/main.dart';
-import 'package:tinycolor/tinycolor.dart';
 
 class DashboardPage extends GetView<DashboardController> {
   @override
@@ -26,8 +25,6 @@ class DashboardPage extends GetView<DashboardController> {
           FloatingActionButton(
               heroTag: "2",
               onPressed: () {
-                // Get.changeTheme(
-                //     Get.theme.copyWith(backgroundColor: Colors.red));
                 Get.changeTheme(darkTheme);
               }),
         ],
@@ -36,7 +33,7 @@ class DashboardPage extends GetView<DashboardController> {
       appBar: context.showNavbar
           ? null
           : AppBar(
-              iconTheme: IconThemeData(color: Colors.black),
+              iconTheme: Get.theme.iconTheme,
               backgroundColor: Colors.transparent,
               elevation: 0.0,
             ),
@@ -44,27 +41,32 @@ class DashboardPage extends GetView<DashboardController> {
           ? null
           : Drawer(
               elevation: 10.0,
-              child: ListView.builder(
-                itemCount: dashboardItemsList.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text(dashboardItemsList[index].label),
-                    leading: controller.page == index
-                        ? Icon(
-                            dashboardItemsList[index].icon.icon,
-                            color: Colors.blue,
-                          )
-                        : Icon(
-                            dashboardItemsList[index].icon.icon,
-                            color: Colors.black,
-                          ),
-                    onTap: () {
-                      controller.page = index;
-                      pageController.jumpToPage(index);
-                      Get.back();
-                    },
-                  );
-                },
+              child: Container(
+                color: Get.theme.backgroundColor,
+                child: ListView.builder(
+                  itemCount: dashboardItemsList.length,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      title: Text(dashboardItemsList[index].label),
+                      leading: controller.page == index
+                          ? Icon(
+                              dashboardItemsList[index].icon.icon,
+                              color: Colors.blue,
+                            )
+                          : Icon(
+                              dashboardItemsList[index].icon.icon,
+                              color: Colors.black,
+                            ),
+                      onTap: () {
+                        controller.page = index;
+                        pageController.animateToPage(controller.page,
+                            duration: Duration(milliseconds: 300),
+                            curve: Curves.easeIn);
+                        Get.back();
+                      },
+                    );
+                  },
+                ),
               ),
             ),
       body: Row(
@@ -98,10 +100,11 @@ class DashboardPage extends GetView<DashboardController> {
                               controller.page = value;
                               pageController.animateToPage(value,
                                   duration: Duration(milliseconds: 300),
-                                  curve: Curves.easeInSine);
+                                  curve: Curves.easeIn);
                             },
                             destinations: dashboardItemsList
                                 .map((e) => NavigationRailDestination(
+                                   
                                     padding: EdgeInsets.symmetric(vertical: 20),
                                     icon: e.icon,
                                     selectedIcon: Icon(e.icon.icon),

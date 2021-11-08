@@ -44,3 +44,6 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Server node modules can be pulled to machine independently 
+/server/node_modules

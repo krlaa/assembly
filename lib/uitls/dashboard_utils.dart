@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 
 final dashboardItemsList = [
   DashboardItem(
-      selectedIcon: Icon(Icons.home), label: "Home", icon: Icon(Icons.home)),
+      selectedIcon: Tooltip(message: "Home", child: Icon(Icons.home)),
+      label: "Home",
+      icon: Icon(Icons.home)),
   DashboardItem(
       selectedIcon: Icon(Icons.home),
       label: "Tasks",
@@ -20,7 +22,7 @@ final dashboardItemsList = [
 
 class DashboardItem {
   Icon icon;
-  Icon selectedIcon;
+  Widget selectedIcon;
   String label;
   bool isSelected = false;
   DashboardItem({

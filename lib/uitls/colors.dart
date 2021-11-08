@@ -9,6 +9,7 @@ final lightTheme = ThemeData(
     primaryColor: Colors.deepPurpleAccent[200],
     primarySwatch: Colors.deepPurple);
 final darkTheme = ThemeData(
+  
     textTheme: Typography.whiteMountainView,
     iconTheme: IconThemeData(color: Colors.deepPurple[50]),
     cardColor: Colors.grey[900].darken(5),
